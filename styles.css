@@ -1,0 +1,15 @@
+#box {
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    background-color: blue;
+    color: white;
+    text-align: center;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black;
+}
+
+body {
+    text-align: center;
+}
