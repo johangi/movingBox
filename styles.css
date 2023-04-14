@@ -1,13 +1,30 @@
-#box {
+#box,
+#box2 {
     position: absolute;
-    height: 100px;
-    width: 100px;
-    background-color: blue;
-    color: white;
+    width: 75px;
+    height: 75px;
     text-align: center;
+    color: white;
     border-width: 5px;
     border-style: solid;
     border-color: black;
+}
+
+#box {
+    top: 0;
+    left: 0;
+    background-color: blue;
+}
+
+#box2 {
+    top: 0;
+    left: 0;
+    background-color: red;
+}
+
+#points {
+    font-size: 24px;
+    font-weight: bold;
 }
 
 body {
