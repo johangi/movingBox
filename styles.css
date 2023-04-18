@@ -5,21 +5,18 @@
     height: 75px;
     text-align: center;
     color: white;
-    border-width: 5px;
-    border-style: solid;
-    border-color: black;
 }
 
 #box {
     top: 0;
     left: 0;
-    background-color: blue;
+    background-color: #40798C;
 }
 
 #box2 {
     top: 0;
     left: 0;
-    background-color: red;
+    background-color: #CFD7C7;
 }
 
 #points {
@@ -29,4 +26,10 @@
 
 body {
     text-align: center;
+    background-color: #0B2027;
+    color: white;
+}
+
+a {
+    color: white;
 }

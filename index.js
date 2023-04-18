@@ -1,25 +1,30 @@
-const box = document.getElementById('box');
-const box2 = document.getElementById('box2');
-const pointsDisplay = document.getElementById('points');
+// DOM Elements for code
+const box = document.getElementById('box'); // Get player box element
+const box2 = document.getElementById('box2'); // Get enemy box element
+const pointsDisplay = document.getElementById('points'); // Get points display element
 
-let boxLeft = (window.innerWidth - box.offsetWidth) / 2;
-let boxTop = (window.innerHeight - box.offsetHeight) / 2;
+// Select top and left side of player box using window dimensions
+let boxLeft = (window.innerWidth - box.offsetWidth) / 2; // Get horizontal center of player box
+let boxTop = (window.innerHeight - box.offsetHeight) / 2; // Get vertical center of player box
 
-box.style.left = boxLeft + 'px';
-box.style.top = boxTop + 'px';
+// Apply default styling (position) to player box
+box.style.left = boxLeft + 'px'; // Set horizontal position of player box
+box.style.top = boxTop + 'px'; // Set vertical position of player box
 
-let points = 0;
-pointsDisplay.textContent = `Points: ${points}`;
+// Apply default points display and counter
+let points = 0; // Initialize points to zero
+pointsDisplay.textContent = `Points: ${points}`; // Set points display text
 
+// Event listener for player box, checks for Arrow keys
 document.addEventListener('keydown', function (event) {
   if (event.keyCode === 37) { // left arrow
-    boxLeft -= 10;
+    boxLeft -= 10; // Move box left
   } else if (event.keyCode === 38) { // up arrow
-    boxTop -= 10;
+    boxTop -= 10; // Move box up
   } else if (event.keyCode === 39) { // right arrow
-    boxLeft += 10;
+    boxLeft += 10; // Move box right
   } else if (event.keyCode === 40) { // down arrow
-    boxTop += 10;
+    boxTop += 10; // Move box down
   }
 
   // Get the dimensions of the viewport
@@ -27,38 +32,43 @@ document.addEventListener('keydown', function (event) {
   const viewportHeight = document.documentElement.clientHeight;
 
   // Check if the box is going outside the viewport
-  if (boxLeft < 0) {
-    boxLeft = 0;
-  } else if (boxLeft > viewportWidth - box.offsetWidth) {
-    boxLeft = viewportWidth - box.offsetWidth;
+  if (boxLeft < 0) { // If box exceeds left boundary
+    boxLeft = 0; // Keep box within left boundary
+  } else if (boxLeft > viewportWidth - box.offsetWidth) { // If box exceeds right boundary
+    boxLeft = viewportWidth - box.offsetWidth; // Keep box within right boundary
   }
-  if (boxTop < 0) {
-    boxTop = 0;
-  } else if (boxTop > viewportHeight - box.offsetHeight) {
-    boxTop = viewportHeight - box.offsetHeight;
+  if (boxTop < 0) { // If box exceeds top boundary
+    boxTop = 0; // Keep box within top boundary
+  } else if (boxTop > viewportHeight - box.offsetHeight) { // If box exceeds bottom boundary
+    boxTop = viewportHeight - box.offsetHeight; // Keep box within bottom boundary
   }
 
   // Set the position of the box
-  box.style.left = boxLeft + 'px';
-  box.style.top = boxTop + 'px';
+  box.style.left = boxLeft + 'px'; // Set horizontal position of player box
+  box.style.top = boxTop + 'px'; // Set vertical position of player box
 });
 
-let box2Left = 0;
-let box2Top = 0;
+// Initialize and declare initial postion variables for "enemy" box
+let box2Left = 0; // Initialize horizontal position of enemy box
+let box2Top = 0; // Initialize vertical position of enemy box
 
-let box2DirectionX = 1;
-let box2DirectionY = 1;
-let box2Speed = 5;
-let overlapTime = null; // initialize overlapTime to null
+// Intialize and declare direction and speed variables
+let box2DirectionX = 1; // Initialize horizontal direction of enemy box
+let box2DirectionY = 1; // Initialize vertical direction of enemy box
+let box2Speed = 5; // Initialize speed of enemy box
+let overlapTime = null; // Initialize overlapTime to null
 
-let startTime = new Date().getTime();
+// Intialize and declare start time variable
+let startTime = new Date().getTime(); // Get current time in milliseconds
 
+// Function for the movement of the "enemy" box (box2)
 function moveBox2() {
+  // Ensure start time exists
   if (!startTime) {
     startTime = new Date().getTime(); // initialize startTime the first time the box moves
   }
 
-  let currentTime = new Date().getTime();
+  let currentTime = new Date().getTime(); // Get the current time
   let minutes = Math.floor((currentTime - startTime) / 60000); // calculate the number of minutes that have passed
 
   if (minutes > 0) {
@@ -66,6 +76,7 @@ function moveBox2() {
     box2.style.transform = `scale(${scaleFactor})`; // apply the scaling factor
   }
 
+  // Apply new direction to box2
   box2Left += box2DirectionX * box2Speed;
   box2Top += box2DirectionY * box2Speed;
 
@@ -119,33 +130,35 @@ function checkCollision() {
 }
 
 function updateScore() {
-  let currentTime = new Date().getTime();
-  let seconds = Math.floor((currentTime - startTime) / 1000);
+  let currentTime = new Date().getTime(); // get the current time
+  let seconds = Math.floor((currentTime - startTime) / 1000); // calculate the number of seconds that have passed
 
   // Add one point for every second that has passed
   points += seconds;
 
   // Deduct 10 points for every second that the boxes have been overlapping
   if (overlapTime !== null) {
-    let overlapSeconds = Math.floor((currentTime - overlapTime) / 1000);
-    points -= overlapSeconds * 10;
+    let overlapSeconds = Math.floor((currentTime - overlapTime) / 1000); // calculate the number of seconds that the boxes have been overlapping
+    points -= overlapSeconds * 10; // deduct points for each second of overlap
   }
 
   // Update the start time
   startTime = currentTime;
 
-  pointsDisplay.innerHTML = 'Score: ' + points;
+  pointsDisplay.innerHTML = 'Score: ' + points; // update the score display
 }
 
-setInterval(moveBox2, 10);
+// call moveBox2 every 1 millisecond and updateScore every 1000 milliseconds
+setInterval(moveBox2, 1);
 setInterval(updateScore, 1000)
 
+// when the window loads, set a timer to increase the size of box2 every 60000 milliseconds
 window.onload = function () {
   setInterval(function () {
-    let box2 = document.getElementById('box2');
-    let currentSize = box2.clientWidth;
-    let newSize = currentSize * 1.1;
-    box2.style.width = newSize + 'px';
-    box2.style.height = newSize + 'px';
+    let box2 = document.getElementById('box2'); // get box2 element
+    let currentSize = box2.clientWidth; // get the current width of box2
+    let newSize = currentSize * 1.1; // calculate the new size of box2
+    box2.style.width = newSize + 'px'; // update the width of box2
+    box2.style.height = newSize + 'px'; // update the height of box2
   }, 60000);
 };
